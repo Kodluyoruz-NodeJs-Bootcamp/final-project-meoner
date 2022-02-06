@@ -2,37 +2,43 @@ import {
   Container,
   Typography,
   TextField,
-  Button,
+  Button, Box,
 } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { makeStyles } from '@mui/styles';
 import * as yup from "yup";
-import { useState } from "react";
+import {FC, useState} from "react";
 import { yupResolver } from '@hookform/resolvers/yup';
+import { Link } from "react-router-dom";
 
 interface IFormInput {
   email: string;
-  firstName: string;
+  fullName: string;
   password: string;
 }
 
+interface IProps {
+  linkProp: string
+}
+
 const schema = yup.object().shape({
-  email: yup.string().required().email(),
-  firstName: yup.string().required().min(2).max(25),
-  password: yup.string().required().min(8).max(120),
+  email: yup.string().required('Email is required').email(),
+  fullName: yup.string().required('FullName is required').min(2).max(25),
+  password: yup.string().required().min(8).max(60),
 });
 
 const useStyles = makeStyles((theme: any) => ({
   heading: {
     textAlign: "center",
-    margin: '300px',
-    color: 'red'
+    padding: '20px',
   },
-  submitButton: {
-  },
+  alreadyMemberContainer:{
+    textAlign: "center",
+    padding: '20px'
+  }
 }));
 
-const  RegisterContainer = () =>  {
+const  RegisterContainer: FC = (props:any) =>  {
   const {
     register,
     handleSubmit,
@@ -42,7 +48,7 @@ const  RegisterContainer = () =>  {
   });
 
   // @ts-ignore
-  const { heading, submitButton } = useStyles();
+  const { heading, alreadyMemberContainer } = useStyles();
 
   const [json, setJson] = useState<string>();
 
@@ -70,12 +76,12 @@ const  RegisterContainer = () =>  {
               required
           />
           <TextField
-              {...register("firstName")}
+              {...register("fullName")}
               variant="outlined"
               margin="normal"
               label="First Name"
-              helperText={errors.firstName?.message}
-              error={!!errors.firstName?.message}
+              helperText={errors.fullName?.message}
+              error={!!errors.fullName?.message}
               fullWidth
               required
           />
@@ -95,7 +101,7 @@ const  RegisterContainer = () =>  {
               fullWidth
               variant="contained"
               color="primary"
-              className={submitButton}
+              sx={{mt: '24px'}}
           >
             Sign Up
           </Button>
@@ -109,8 +115,14 @@ const  RegisterContainer = () =>  {
               </>
           )}
         </form>
+        <Container className={alreadyMemberContainer}>
+          <Typography fontSize={20}>
+            Do you have a account ?
+          </Typography>
+          <Link {...props} to="/login"> Login </Link>
+        </Container>
       </Container>
   );
 }
 
-export default RegisterContainer;
+export {RegisterContainer};

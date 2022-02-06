@@ -2,13 +2,14 @@ import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
-import  RegisterContainer  from "./containers/RegisterContainer";
+import {LoginContainer, RegisterContainer } from "./containers";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<RegisterContainer />} />
+        <Route path="/login" element={<LoginContainer />} />
+        <Route path="/register" element={<RegisterContainer />} />
       </Routes>
     </BrowserRouter>
   );
