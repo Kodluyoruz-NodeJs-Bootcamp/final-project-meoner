@@ -10,6 +10,8 @@ import * as yup from "yup";
 import {FC, useState} from "react";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Link } from "react-router-dom";
+import API from '../api/api'
+import React from "react";
 
 interface IFormInput {
   email: string;
@@ -47,24 +49,25 @@ const  RegisterContainer: FC = (props:any) =>  {
     resolver: yupResolver(schema),
   });
 
-  // @ts-ignore
   const { heading, alreadyMemberContainer } = useStyles();
 
   const [json, setJson] = useState<string>();
 
-  // @ts-ignore
   const onSubmit = async (data: IFormInput) => {
     //await setJson(JSON.stringify(data));
     console.log(data);
+    await API.post(`users/register`, data).then(res => {
+      console.log(res);
+      console.log(res.data);
+    })
   };
 
-  // @ts-ignore
   return (
       <Container maxWidth="xs">
         <Typography className={heading} variant="h3">
           Sign Up Form
         </Typography>
-        <form onSubmit={handleSubmit(onSubmit)} noValidate>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <TextField
               {...register("email")}
               variant="outlined"
@@ -105,15 +108,6 @@ const  RegisterContainer: FC = (props:any) =>  {
           >
             Sign Up
           </Button>
-          {json && (
-              <>
-                <Typography variant="body1">
-                  Below is the JSON that would normally get passed to the server
-                  when a form gets submitted
-                </Typography>
-                <Typography variant="body2">{json}</Typography>
-              </>
-          )}
         </form>
         <Container className={alreadyMemberContainer}>
           <Typography fontSize={20}>

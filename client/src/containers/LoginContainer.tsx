@@ -10,6 +10,8 @@ import * as yup from "yup";
 import { useState } from "react";
 import { yupResolver } from '@hookform/resolvers/yup';
 import {Link} from "react-router-dom";
+import React from "react";
+import API from "../api/api";
 
 interface IFormInput {
     email: string;
@@ -50,6 +52,10 @@ const  LoginContainer = (props:any) =>  {
     const onSubmit = async (data: IFormInput) => {
         //await setJson(JSON.stringify(data));
         console.log(data);
+        await API.post(`users/login`, data).then(res => {
+            console.log(res);
+            console.log(res.data);
+        })
     };
 
     // @ts-ignore
@@ -89,18 +95,10 @@ const  LoginContainer = (props:any) =>  {
                 >
                     Login
                 </Button>
-                {json && (
-                    <>
-                        <Typography variant="body1">
-                            Below is the JSON that would normally get passed to the server
-                            when a form gets submitted
-                        </Typography>
-                        <Typography variant="body2">{json}</Typography>
-                    </>
-                )}
+
             </form>
             <Container className={newAccountLink}>
-                <Link {...props} to="/register"> Create a new account </Link>
+                <Link  to="/register"> Create a new account </Link>
             </Container>
         </Container>
     );

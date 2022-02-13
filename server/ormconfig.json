@@ -1,0 +1,13 @@
+{
+  "type": "mysql",
+  "host": "127.0.0.1",
+  "port": 3306,
+  "username": "root",
+  "password": "HH29ff41SW*",
+  "database": "movies_and_actors",
+  "entities": [
+    "src/entity/*.ts"
+  ],
+  "logging": true,
+  "synchronize": true
+}
